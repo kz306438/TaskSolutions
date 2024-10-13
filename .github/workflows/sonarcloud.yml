@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'  # Замените на нужную версию JDK
+          distribution: 'adopt'  # Или 'temurin', 'zulu', в зависимости от предпочтений
 
       - name: Cache Maven packages
         uses: actions/cache@v2
@@ -35,6 +36,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Убедитесь, что токен SonarCloud добавлен в Secrets вашего репозитория
         run: mvn sonar:sonar \
-          -Dsonar.projectKey=kz306438_TaskSolutions \
-          -Dsonar.organization=kz306438 \
+          -Dsonar.projectKey=your_project_key \
+          -Dsonar.organization=your_organization_name \
           -Dsonar.host.url=https://sonarcloud.io
