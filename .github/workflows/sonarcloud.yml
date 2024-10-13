@@ -21,6 +21,10 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'  # Указываем, что нужна версия Java 17
+          distribution: 'temurin'  # Указываем дистрибуцию Java
+
+      - name: Check Java version
+        run: java -version
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v1.1
