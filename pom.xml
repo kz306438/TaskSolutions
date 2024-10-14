@@ -16,7 +16,7 @@
     </properties>
 
     <build>
-        <sourceDirectory>Task1_1/src</sourceDirectory>
+        <sourceDirectory>Task1_1/src/main/java</sourceDirectory>
         <plugins>
             <!-- SonarCloud Plugin -->
             <plugin>
