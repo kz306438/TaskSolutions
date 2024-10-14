@@ -6,16 +6,17 @@
     <groupId>com.example</groupId>
     <artifactId>Task1_1</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <sonar.projectKey>kz306438_TaskSolutions</sonar.projectKey>
-        <sonar.organization>kz306438</sonar.organization>
+        <sonar.organization>kirill</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <build>
+        <sourceDirectory>Task1_1/src</sourceDirectory>
         <plugins>
             <!-- SonarCloud Plugin -->
             <plugin>
