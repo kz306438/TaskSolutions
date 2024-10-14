@@ -50,16 +50,17 @@ public class ResizingArrayQueueOfStrings implements QueueOfStrings {
      * @brief Adds a string to the end of the queue, resizing if necessary.
      * @param str The string to be added.
      */
-    @Override
-    public void enqueue(String str) {
-        if (size == capacity) {
-            resize(capacity * 2); // Увеличение емкости вдвое при переполнении
-        }
+   @Override
+   public void enqueue(String str) {
+       if (size == capacity) {
+           resize(capacity * 2); // Увеличение емкости вдвое при переполнении
+       }
 
-        queue[last] = str;
-        last = (last + 1) % capacity;
-        size++;
-    }
+       queue[last % capacity] = str; // Проверка индекса
+       last++; // Увеличиваем last
+       size++;
+   }
+
 
     /**
      * @brief Removes and returns the string at the front of the queue.
