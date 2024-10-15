@@ -84,12 +84,11 @@ public class DoublyLinkedDeque<Item> implements DequeInterface<Item>, Iterable<I
         Node newNode = new Node(item);
         if (isEmpty()) {
             first = newNode;
-            last = newNode;
         } else {
             last.next = newNode;
             newNode.prev = last;
-            last = newNode;
         }
+        last = newNode;
         size++;
     }
 
