@@ -9,18 +9,24 @@ import java.util.NoSuchElementException;
  */
 public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<Item> {
 
-    private static final int DEFAULT_CAPACITY = 4; ///< Standard initial capacity
-    private static final int RESIZE_THRESHOLD = 4; ///< Threshold for reducing capacity
+    private static final int DEFAULT_CAPACITY = 4;
+    /// < Standard initial capacity
+    private static final int RESIZE_THRESHOLD = 4;
+    /// < Threshold for reducing capacity
 
-    private Item[] deque; ///< Internal array holding deque elements
-    private int first; ///< Index of the first element in the deque
-    private int last; ///< Index of the last element in the deque
-    private int size; ///< Current number of elements in the deque
+    private Item[] deque;
+    /// < Internal array holding deque elements
+    private int first;
+    /// < Index of the first element in the deque
+    private int last;
+    /// < Index of the last element in the deque
+    private int size;
+    /// < Current number of elements in the deque
     private int capacity; ///< Current capacity of the deque
 
     /**
-     * @brief Constructs a deque with the specified capacity.
      * @param capacity Initial capacity of the deque.
+     * @brief Constructs a deque with the specified capacity.
      */
     public ResizingArrayDeque(int capacity) {
         this.capacity = capacity > 0 ? capacity : DEFAULT_CAPACITY;
@@ -31,8 +37,8 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Returns an iterator over the elements in the deque.
      * @return An iterator for the deque.
+     * @brief Returns an iterator over the elements in the deque.
      */
     @Override
     public Iterator<Item> iterator() {
@@ -58,8 +64,8 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Checks if the deque is empty.
      * @return true if the deque is empty, false otherwise.
+     * @brief Checks if the deque is empty.
      */
     @Override
     public boolean isEmpty() {
@@ -67,8 +73,8 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Returns the number of elements in the deque.
      * @return The current size of the deque.
+     * @brief Returns the number of elements in the deque.
      */
     @Override
     public int size() {
@@ -76,8 +82,8 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Adds an element to the front (left) of the deque.
      * @param item The element to add.
+     * @brief Adds an element to the front (left) of the deque.
      */
     @Override
     public void pushLeft(Item item) {
@@ -90,8 +96,8 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Adds an element to the end (right) of the deque.
      * @param item The element to add.
+     * @brief Adds an element to the end (right) of the deque.
      */
     @Override
     public void pushRight(Item item) {
@@ -104,9 +110,9 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Removes and returns the element from the front (left) of the deque.
      * @return The element removed from the front.
      * @throws IllegalStateException if the deque is empty.
+     * @brief Removes and returns the element from the front (left) of the deque.
      */
     @Override
     public Item popLeft() {
@@ -127,9 +133,9 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Removes and returns the element from the end (right) of the deque.
      * @return The element removed from the end.
      * @throws IllegalStateException if the deque is empty.
+     * @brief Removes and returns the element from the end (right) of the deque.
      */
     @Override
     public Item popRight() {
@@ -150,9 +156,9 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
     }
 
     /**
-     * @brief Resizes the internal array to the specified capacity.
      * @param newCapacity The new capacity for the deque.
      * @throws IllegalArgumentException if the new capacity is less than the number of elements in the deque.
+     * @brief Resizes the internal array to the specified capacity.
      */
     public void resize(int newCapacity) {
         if (newCapacity < size) {
@@ -169,49 +175,5 @@ public class ResizingArrayDeque<Item> implements DequeInterface<Item>, Iterable<
         last = size;
         deque = newDeque;
         capacity = newCapacity;
-    }
-
-    /**
-     * @brief Main method for testing the ResizingArrayDeque functionality.
-     * @param args Command-line arguments.
-     */
-    public static void main(String[] args) {
-        ResizingArrayDeque<Integer> deque = new ResizingArrayDeque<>(4);
-
-        System.out.println("Тест добавления элементов справа:");
-        deque.pushRight(10);
-        deque.pushRight(20);
-        deque.pushRight(30);
-        deque.pushRight(40);
-
-        for (int item : deque) {
-            System.out.println(item);
-        }
-
-        System.out.println("\nТест удаления элемента слева:");
-        System.out.println("Удалено: " + deque.popLeft());
-        System.out.println("Удалено: " + deque.popLeft());
-
-        System.out.println("\nТекущие элементы после удаления слева:");
-        for (int item : deque) {
-            System.out.println(item);
-        }
-
-        System.out.println("\nТест добавления элементов слева:");
-        deque.pushLeft(50);
-        deque.pushLeft(60);
-
-        for (int item : deque) {
-            System.out.println(item);
-        }
-
-        System.out.println("\nТест удаления элемента справа:");
-        System.out.println("Удалено: " + deque.popRight());
-        System.out.println("Удалено: " + deque.popRight());
-
-        System.out.println("\nТекущие элементы после удаления справа:");
-        for (int item : deque) {
-            System.out.println(item);
-        }
     }
 }
