@@ -1,4 +1,4 @@
-package org.stackdeque;
+package org.stackqueue;
 
 import java.util.NoSuchElementException;
 
