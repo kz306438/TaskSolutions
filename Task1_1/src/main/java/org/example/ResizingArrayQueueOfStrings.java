@@ -58,7 +58,7 @@ public class ResizingArrayQueueOfStrings implements QueueOfStrings {
            resize(capacity * 2); // Увеличение емкости вдвое при переполнении
        }
        queue[last % capacity] = str; // Проверка индекса
-       last++; // Увеличиваем last
+       last++;
        size++;
    }
 
