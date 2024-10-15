@@ -1,4 +1,4 @@
-package org.example;
+package org.deque;
 
 /**
  * @brief A generic interface for a deque (double-ended queue) structure.

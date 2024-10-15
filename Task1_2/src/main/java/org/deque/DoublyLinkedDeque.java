@@ -1,4 +1,4 @@
-package org.example;
+package org.deque;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

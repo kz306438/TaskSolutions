@@ -1,4 +1,4 @@
-package org.example;
+package org.queueofstrings;
 
 /**
  * @brief Client class to test the functionality of ResizingArrayQueueOfStrings.

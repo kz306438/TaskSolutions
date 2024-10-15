@@ -1,4 +1,4 @@
-package org.example;
+package org.queueofstrings;
 
 /**
  * @brief Interface for a queue of strings.

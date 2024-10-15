@@ -1,4 +1,4 @@
-package org.example;
+package org.queueofstrings;
 
 /**
  * @brief A queue implementation that dynamically resizes an underlying array
