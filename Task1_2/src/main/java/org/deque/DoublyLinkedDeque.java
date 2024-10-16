@@ -12,7 +12,7 @@ public class DoublyLinkedDeque<Item> implements DequeInterface<Item>, Iterable<I
     /**
      * @brief A private inner class representing a node in the doubly linked list.
      */
-    private class Node {
+    private class Node { //NOSONAR
         Item data; ///< Data stored in the node
         Node prev; ///< Previous node
         Node next; ///< Next node

@@ -14,11 +14,10 @@ public class StackQueueImpl<Item> implements StackQueue<Item>, Iterable<Item> {
     /**
      * @brief A private inner class representing a node in the doubly linked list.
      */
-    private class Node {
+    private class Node { //NOSONAR
         Item data;
         Node next;
         Node prev;
-
         Node(Item data) {
             this.data = data;
         }
