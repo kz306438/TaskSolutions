@@ -1,6 +1,6 @@
 package org.stablePQ;
 
-public class StablePriorityQueueTest {
+public class Main {
 
     public static void main(String[] args) {
         StablePriorityQueue<String> queue = new StablePriorityQueue<>();
