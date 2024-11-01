@@ -89,54 +89,6 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     /**
-     * Finds the largest key less than or equal to the given key.
-     *
-     * @param key the key to compare
-     * @return the largest key less than or equal to the given key, or null if no such key exists
-     */
-    public T floor(T key) {
-        Node node = root;
-        T floor = null;
-
-        while (node != null) {
-            int cmp = key.compareTo(node.key);
-
-            if (cmp == 0) return node.key;
-            if (cmp > 0) {
-                floor = node.key;
-                node = node.right;
-            } else {
-                node = node.left;
-            }
-        }
-        return floor;
-    }
-
-    /**
-     * Finds the smallest key greater than or equal to the given key.
-     *
-     * @param key the key to compare
-     * @return the smallest key greater than or equal to the given key, or null if no such key exists
-     */
-    public T ceiling(T key) {
-        Node node = root;
-        T ceiling = null;
-
-        while (node != null) {
-            int cmp = key.compareTo(node.key);
-
-            if (cmp == 0) return node.key;
-            if (cmp < 0) {
-                ceiling = node.key;
-                node = node.left;
-            } else {
-                node = node.right;
-            }
-        }
-        return ceiling;
-    }
-
-    /**
      * Finds the number of keys less than the given key.
      *
      * @param key the key to compare
