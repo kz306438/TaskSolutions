@@ -1,4 +1,4 @@
-package org.optimalMemoryRedBlackBST;
+package org.redBlackBSTDeleteImpl;
 
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
     private static final boolean RED = true;

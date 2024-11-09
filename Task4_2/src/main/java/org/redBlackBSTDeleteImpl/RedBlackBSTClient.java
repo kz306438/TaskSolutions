@@ -1,4 +1,4 @@
-package org.optimalMemoryRedBlackBST;
+package org.redBlackBSTDeleteImpl;
 
 public class RedBlackBSTClient {
     public static void main(String[] args) {
