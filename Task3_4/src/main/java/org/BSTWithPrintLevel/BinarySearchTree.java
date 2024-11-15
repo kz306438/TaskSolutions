@@ -12,7 +12,7 @@ class BinarySearchTree {
     /**
      * Represents a single node in the binary search tree.
      */
-    private class Node {
+    private static class Node {
         int key;
         Node left, right;
 
@@ -112,7 +112,7 @@ class BinarySearchTree {
      *
      * @param node the root node of the subtree to print
      */
-    public void printLevel(Node node) {
+    private void printLevel(Node node) {
         if (node == null) return;
 
         Queue<Node> queue = new LinkedList<>();

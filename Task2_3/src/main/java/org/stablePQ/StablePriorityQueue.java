@@ -10,18 +10,12 @@ import java.util.List;
 public class StablePriorityQueue<T> {
 
     /**
+     * @param value          Element value
+     * @param priority       Priority of the element
+     * @param sequenceNumber Insertion order to ensure stability
      * @brief Node representing an entry in the queue with value, priority, and insertion order.
      */
-    private static class Node<T> {
-        final T value;               // Element value
-        final int priority;          // Priority of the element
-        final long sequenceNumber;    // Insertion order to ensure stability
-
-        Node(T value, int priority, long sequenceNumber) {
-            this.value = value;
-            this.priority = priority;
-            this.sequenceNumber = sequenceNumber;
-        }
+        private record Node<T>(T value, int priority, long sequenceNumber) {
     }
 
     private final List<Node<T>> heap;    // Min-heap for the priority queue
@@ -53,9 +47,9 @@ public class StablePriorityQueue<T> {
         if (isEmpty()) {
             return null;
         }
-        T result = heap.get(0).value;
+        T result = heap.getFirst().value;
         swap(0, heap.size() - 1);
-        heap.remove(heap.size() - 1);
+        heap.removeLast();
         siftDown(0);
         return result;
     }
@@ -65,7 +59,7 @@ public class StablePriorityQueue<T> {
      * @return Element with the highest priority or null if the queue is empty.
      */
     public T peek() {
-        return isEmpty() ? null : heap.get(0).value;
+        return isEmpty() ? null : heap.getFirst().value;
     }
 
     /**

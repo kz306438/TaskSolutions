@@ -20,6 +20,7 @@ public class LinearProbingHashST<Key, Value> {
     /**
      * Initializes an empty symbol table with the default initial capacity.
      */
+    @SuppressWarnings("unchecked")
     public LinearProbingHashST() {
         keys = (Key[]) new Object[m];
         values = (Value[]) new Object[m];
@@ -134,6 +135,7 @@ public class LinearProbingHashST<Key, Value> {
      *
      * @param newSize the new size of the hash table
      */
+    @SuppressWarnings("unchecked")
     private void resize(int newSize) {
         LinearProbingHashST<Key, Value> temp = new LinearProbingHashST<>();
         temp.m = newSize;

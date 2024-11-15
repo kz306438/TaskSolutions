@@ -43,16 +43,12 @@ public class FileSorter {
      * @return the corresponding comparator
      */
     public static Comparator<File> getComparator(String option, String order) {
-        switch (option) {
-            case "-s":
-                return "desc".equals(order) ? sizeDescending() : sizeAscending();
-            case "-t":
-                return "desc".equals(order) ? dateDescending() : dateAscending();
-            case "-n":
-                return "desc".equals(order) ? nameDescending() : nameAscending();
-            default:
-                throw new IllegalArgumentException("Invalid sort option. Use -s, -t, or -n.");
-        }
+        return switch (option) {
+            case "-s" -> "desc".equals(order) ? sizeDescending() : sizeAscending();
+            case "-t" -> "desc".equals(order) ? dateDescending() : dateAscending();
+            case "-n" -> "desc".equals(order) ? nameDescending() : nameAscending();
+            default -> throw new IllegalArgumentException("Invalid sort option. Use -s, -t, or -n.");
+        };
     }
 
 

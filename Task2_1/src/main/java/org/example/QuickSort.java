@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @brief A class for sorting arrays and lists using the quick sort algorithm.
  */
-public class QuickSort {
+public class        QuickSort {
 
     /**
      * @brief Sorts an array or list using the quick sort algorithm.

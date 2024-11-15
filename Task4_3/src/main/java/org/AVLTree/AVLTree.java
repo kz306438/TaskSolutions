@@ -13,7 +13,7 @@ public class AVLTree {
     static class Node {
         int key;        /**< The key stored in the node */
         Node left, right; /**< References to the left and right children */
-        int height;      /**< Height of the node in the tree */
+        int height;      /*< Height of the node in the tree */
 
         /**
          * Constructor to initialize a node with a key.
@@ -26,7 +26,7 @@ public class AVLTree {
         }
     }
 
-    private Node root; /**< The root node of the AVL tree */
+    private Node root; /*< The root node of the AVL tree */
 
     /**
      * Returns the height of a given node.
@@ -165,39 +165,40 @@ public class AVLTree {
      * Helper method to delete a key from the subtree rooted at the given node.
      *
      * @param node The node at which to delete the key
-     * @param key The key to be deleted
+     * @param key  The key to be deleted
      * @return The new root node of the subtree
      */
     private Node delete(Node node, int key) {
-        if (node == null) return node;
+        if (node == null) {
+            return null;
+        }
 
         if (key < node.key) {
             node.left = delete(node.left, key);
         } else if (key > node.key) {
             node.right = delete(node.right, key);
         } else {
-            // Node with only one child or no child
-            if (node.left == null || node.right == null) {
-                Node temp = null;
-                if (temp == node.left) temp = node.right;
-                else temp = node.left;
-
-                if (temp == null) {
-                    temp = node;
-                    node = null;
-                } else {
-                    node = temp; // Copy the non-null child
-                }
-            } else {
-                Node temp = minValueNode(node.right);
-                node.key = temp.key;
-                node.right = delete(node.right, temp.key);
-            }
+            node = handleDeletion(node);
         }
 
-        if (node == null) return node;
+        return (node == null) ? null : balance(node);
+    }
 
-        return balance(node);
+    /**
+     * Handles the deletion of a node when the key matches.
+     *
+     * @param node The node to delete
+     * @return The new root node after deletion
+     */
+    private Node handleDeletion(Node node) {
+        if (node.left == null || node.right == null) {
+            return node.left != null ? node.left : node.right;
+        }
+
+        Node temp = minValueNode(node.right);
+        node.key = temp.key;
+        node.right = delete(node.right, temp.key);
+        return node;
     }
 
     /**

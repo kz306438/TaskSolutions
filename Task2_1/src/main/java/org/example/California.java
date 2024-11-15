@@ -1,9 +1,10 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Logger;
 
-public class California {
+public class    California {
+    private static final Logger logger = Logger.getLogger(California.class.getName());
+
     public static void main(String[] args) {
         // Создаем массив кандидатов
         Candidate[] candidates = {
@@ -14,21 +15,20 @@ public class California {
                 new Candidate("Dave", "Brown")
         };
 
-        // Выводим исходный массив
-        System.out.println("Before sorting:");
+        // Логируем исходный массив
+        logger.info("Before sorting:");
         for (Candidate candidate : candidates) {
-            System.out.println(candidate);
+            logger.info(candidate.toString());
         }
 
         // Создаем экземпляр QuickSort и сортируем массив
         QuickSort quickSort = new QuickSort();
         quickSort.sort(candidates);
 
-        // Выводим отсортированный массив
-        System.out.println("\nAfter sorting:");
+        // Логируем отсортированный массив
+        logger.info("\nAfter sorting:");
         for (Candidate candidate : candidates) {
-            System.out.println(candidate);
+            logger.info(candidate.toString());
         }
     }
 }
-

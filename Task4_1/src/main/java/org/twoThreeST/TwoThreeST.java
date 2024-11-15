@@ -26,6 +26,7 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
          * @param key The key to store in the node.
          * @param value The value associated with the key.
          */
+        @SuppressWarnings("unchecked")
         TwoNode(Key key, Value value) {
             this.keys = (Key[]) new Comparable[1];
             this.values = (Value[]) new Object[1];
@@ -45,6 +46,7 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
          * @param key2 The second key.
          * @param value2 The second value associated with the second key.
          */
+        @SuppressWarnings("unchecked")
         ThreeNode(Key key1, Value value1, Key key2, Value value2) {
             this.keys = (Key[]) new Comparable[2];
             this.values = (Value[]) new Object[2];
@@ -67,8 +69,7 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
 
     private Value get(Node node, Key key) {
         if (node == null) return null;
-        if (node instanceof TwoNode) {
-            TwoNode twoNode = (TwoNode) node;
+        if (node instanceof TwoNode twoNode) {
             int cmp = key.compareTo(twoNode.keys[0]);
             if (cmp == 0) return twoNode.values[0];
             else if (cmp < 0) return get(twoNode.left, key);
@@ -93,15 +94,14 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
      */
     public void put(Key key, Value value) {
         root = put(root, key, value);
-        if (root instanceof ThreeNode) {
+        if (root instanceof ThreeNode oldRoot) {
             // Split root if necessary
-            ThreeNode oldRoot = (ThreeNode) root;
             Key middleKey = oldRoot.keys[0];
             Value middleValue = oldRoot.values[0];
 
-            Node newRoot = new TwoNode(middleKey, middleValue);
-            ((TwoNode) newRoot).left = new TwoNode(oldRoot.keys[0], oldRoot.values[0]);
-            ((TwoNode) newRoot).right = new TwoNode(oldRoot.keys[1], oldRoot.values[1]);
+            TwoNode newRoot = new TwoNode(middleKey, middleValue);
+            newRoot.left = new TwoNode(oldRoot.keys[0], oldRoot.values[0]);
+            newRoot.right = new TwoNode(oldRoot.keys[1], oldRoot.values[1]);
             root = newRoot;
         }
     }
@@ -109,8 +109,7 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
     private Node put(Node node, Key key, Value value) {
         if (node == null) return new TwoNode(key, value);
 
-        if (node instanceof TwoNode) {
-            TwoNode twoNode = (TwoNode) node;
+        if (node instanceof TwoNode twoNode) {
             int cmp = key.compareTo(twoNode.keys[0]);
             if (cmp == 0) {
                 twoNode.values[0] = value;
@@ -188,50 +187,73 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
         if (node == null) return null;
 
         if (node instanceof TwoNode) {
-            TwoNode twoNode = (TwoNode) node;
-            int cmp = key.compareTo(twoNode.keys[0]);
-
-            if (cmp == 0) {
-                if (twoNode.left == null && twoNode.right == null) return null;
-                else if (twoNode.right != null) {
-                    Key minKey = findMin(twoNode.right);
-                    Value minValue = get(twoNode.right, minKey);
-                    twoNode.keys[0] = minKey;
-                    twoNode.values[0] = minValue;
-                    twoNode.right = delete(twoNode.right, minKey);
-                } else {
-                    Key maxKey = findMax(twoNode.left);
-                    Value maxValue = get(twoNode.left, maxKey);
-                    twoNode.keys[0] = maxKey;
-                    twoNode.values[0] = maxValue;
-                    twoNode.left = delete(twoNode.left, maxKey);
-                }
-            } else if (cmp < 0) {
-                twoNode.left = delete(twoNode.left, key);
-            } else {
-                twoNode.right = delete(twoNode.right, key);
-            }
-            return twoNode;
+            return handleTwoNodeDelete((TwoNode) node, key);
         } else {
-            ThreeNode threeNode = (ThreeNode) node;
-            int cmp1 = key.compareTo(threeNode.keys[0]);
-            int cmp2 = key.compareTo(threeNode.keys[1]);
-
-            if (cmp1 == 0 || cmp2 == 0) {
-                int pos = (cmp1 == 0) ? 0 : 1;
-                Key replaceKey = (pos == 0) ? findMax(threeNode.left) : findMin(threeNode.right);
-                Value replaceValue = get(node, replaceKey);
-                threeNode.keys[pos] = replaceKey;
-                threeNode.values[pos] = replaceValue;
-                delete(node, replaceKey);
-            } else {
-                if (cmp1 < 0) threeNode.left = delete(threeNode.left, key);
-                else if (cmp2 < 0) threeNode.middle = delete(threeNode.middle, key);
-                else threeNode.right = delete(threeNode.right, key);
-            }
-            return threeNode;
+            return handleThreeNodeDelete((ThreeNode) node, key);
         }
     }
+
+    private TwoNode handleTwoNodeDelete(TwoNode node, Key key) {
+        int cmp = key.compareTo(node.keys[0]);
+
+        if (cmp == 0) {
+            if (node.left == null && node.right == null) {
+                return null; // Leaf node, delete directly
+            }
+            if (node.right != null) {
+                replaceWithMin(node, 0, node.right);
+                node.right = delete(node.right, node.keys[0]);
+            } else {
+                replaceWithMax(node, 0, node.left);
+                node.left = delete(node.left, node.keys[0]);
+            }
+        } else if (cmp < 0) {
+            node.left = delete(node.left, key);
+        } else {
+            node.right = delete(node.right, key);
+        }
+        return node;
+    }
+
+    private ThreeNode handleThreeNodeDelete(ThreeNode node, Key key) {
+        int cmp1 = key.compareTo(node.keys[0]);
+        int cmp2 = key.compareTo(node.keys[1]);
+
+        if (cmp1 == 0 || cmp2 == 0) {
+            int pos = (cmp1 == 0) ? 0 : 1;
+            if (pos == 0) {
+                replaceWithMax(node, pos, node.left);
+                node.left = delete(node.left, node.keys[pos]);
+            } else {
+                replaceWithMin(node, pos, node.right);
+                node.right = delete(node.right, node.keys[pos]);
+            }
+        } else {
+            if (cmp1 < 0) {
+                node.left = delete(node.left, key);
+            } else if (cmp2 < 0) {
+                node.middle = delete(node.middle, key);
+            } else {
+                node.right = delete(node.right, key);
+            }
+        }
+        return node;
+    }
+
+    private void replaceWithMin(Node node, int pos, Node subtree) {
+        Key minKey = findMin(subtree);
+        Value minValue = get(subtree, minKey);
+        node.keys[pos] = minKey;
+        node.values[pos] = minValue;
+    }
+
+    private void replaceWithMax(Node node, int pos, Node subtree) {
+        Key maxKey = findMax(subtree);
+        Value maxValue = get(subtree, maxKey);
+        node.keys[pos] = maxKey;
+        node.values[pos] = maxValue;
+    }
+
 
     /**
      * @brief Returns the minimum key in the tree.
@@ -252,8 +274,7 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
     }
 
     private Key findMax(Node node) {
-        if (node instanceof TwoNode) {
-            TwoNode twoNode = (TwoNode) node;
+        if (node instanceof TwoNode twoNode) {
             return twoNode.keys[0];
         }
         ThreeNode threeNode = (ThreeNode) node;
@@ -261,8 +282,7 @@ public class TwoThreeST<Key extends Comparable<Key>, Value> {
     }
 
     private Key findMin(Node node) {
-        if (node instanceof TwoNode) {
-            TwoNode twoNode = (TwoNode) node;
+        if (node instanceof TwoNode twoNode) {
             return twoNode.keys[0];
         }
         ThreeNode threeNode = (ThreeNode) node;
