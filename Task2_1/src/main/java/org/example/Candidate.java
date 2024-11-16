@@ -20,14 +20,6 @@ public record Candidate(String name, String surname) implements Comparable<Candi
     }
 
     /**
-     * @param name    The first name of the candidate.
-     * @param surname The surname of the candidate.
-     * @brief Constructs a Candidate with a name and surname.
-     */
-    public Candidate {
-    }
-
-    /**
      * @return The candidate's first name.
      * @brief Gets the name of the candidate.
      */
