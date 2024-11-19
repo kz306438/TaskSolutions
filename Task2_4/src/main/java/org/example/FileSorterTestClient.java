@@ -17,39 +17,32 @@ public class FileSorterTestClient {
             return;
         }
 
-        // Prompt for sorting option
-        System.out.print("Choose sorting option (-s for size, -t for time, -n for name): ");
-        String sortOption = scanner.nextLine();
-
-        // Prompt for sorting order
-        System.out.print("Choose sorting order (asc for ascending, desc for descending): ");
-        String sortOrder = scanner.nextLine();
+        // Prompt for combined sorting options
+        System.out.print("Choose sorting options (e.g., 'stn' for size, then time, then name): ");
+        String sortOptions = scanner.nextLine();
 
         // Call method to perform sorting test
-        testSorting(dir, sortOption, sortOrder);
+        testSorting(dir, sortOptions);
     }
 
     /**
      * Method to test sorting based on input parameters
      * @param dir Directory containing files to sort
-     * @param sortOption Sorting option, e.g., "-s" for size, "-t" for time, "-n" for name
-     * @param sortOrder Sorting order, "asc" for ascending or "desc" for descending
+     * @param sortOptions Sorting options, e.g., "stn" for size, then time, then name
      */
-    private static void testSorting(File dir, String sortOption, String sortOrder) {
+    private static void testSorting(File dir, String sortOptions) {
         File[] files = dir.listFiles();
         if (files == null || files.length == 0) {
             System.out.println("Directory is empty or cannot be read.");
             return;
         }
 
-        System.out.printf("%nTesting sorting by %s in %s order:%n",
-                sortOption.equals("-s") ? "size" : sortOption.equals("-t") ? "time" : "name",
-                sortOrder);
+        System.out.printf("%nTesting sorting by options: %s%n", sortOptions);
 
         // Sort files using FileSorter
         try {
             File[] filesCopy = files.clone();  // Clone array for each test
-            FileSorter.stableSort(filesCopy, FileSorter.getComparator(sortOption, sortOrder));
+            FileSorter.stableSort(filesCopy, FileSorter.getCombinedComparator(sortOptions));
 
             // Print sorted files
             for (File file : filesCopy) {
@@ -57,7 +50,7 @@ public class FileSorterTestClient {
                         file.getName(), file.length(), file.lastModified());
             }
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid sorting option: " + e.getMessage());
+            System.out.println("Invalid sorting options: " + e.getMessage());
         }
     }
 }

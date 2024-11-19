@@ -62,4 +62,31 @@ public class FileSorter {
         Arrays.sort(files, comparator);
     }
 
+    /**
+     * Builds a combined comparator based on user input
+     * @param options the sorting options (e.g., "-stn")
+     * @return the combined comparator
+     */
+    public static Comparator<File> getCombinedComparator(String options) {
+        Comparator<File> comparator = null;
+
+        // Process each character in options string
+        for (char option : options.toCharArray()) {
+            Comparator<File> currentComparator = switch (option) {
+                case 's' -> sizeAscending();
+                case 't' -> dateAscending();
+                case 'n' -> nameAscending();
+                default -> throw new IllegalArgumentException(
+                        "Invalid sort option. Use 's', 't', or 'n'.");
+            };
+
+            // Combine comparators using thenComparing
+            if (comparator == null) {
+                comparator = currentComparator;
+            } else {
+                comparator = comparator.thenComparing(currentComparator);
+            }
+        }
+        return comparator;
+    }
 }
