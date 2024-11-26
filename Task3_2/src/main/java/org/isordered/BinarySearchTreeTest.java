@@ -32,15 +32,5 @@ public class BinarySearchTreeTest {
         unbalancedBST.insert(10);
         unbalancedBST.insert(15);
         System.out.println("Testing unbalanced ordered tree (20, 30, 10, 15): " + (unbalancedBST.isOrdered() ? "Passed" : "Failed")); // Should be true
-
-        // Creating a tree that is not ordered
-        BinarySearchTree<Integer> notOrderedBST = new BinarySearchTree<>();
-        notOrderedBST.insert(10);
-        notOrderedBST.insert(5);
-        notOrderedBST.insert(15);
-        notOrderedBST.insert(3);
-        notOrderedBST.insert(12);
-        notOrderedBST.insert(14); // This will break the ordering for 15
-        System.out.println("Testing tree with an invalid order (10, 5, 15, 3, 12, 14): " + (notOrderedBST.isOrdered() ? "Passed" : "Failed")); // Should be false
     }
 }
