@@ -16,7 +16,7 @@ public class LinearProbingHashST<Key, Value> {
     private Key[] keys;      // the keys
     private Value[] values;  // the values
     private int nullCount;   // count of lazy-deleted entries
-
+    private static final int MIN_CAPACITY = 16; // Minimum allowed size of the hash table
     /**
      * Initializes an empty symbol table with the default initial capacity.
      */
@@ -66,7 +66,7 @@ public class LinearProbingHashST<Key, Value> {
             return;
         }
 
-        if (n >= m / 2) resize(2 * m);  // double table size if 50% full
+        if (n >= m / 2) resize((int)(1.5 * m));  // double table size if 50% full
 
         int i;
         for (i = hash(key); keys[i] != null; i = (i + 1) % m) {
@@ -112,12 +112,13 @@ public class LinearProbingHashST<Key, Value> {
                 if (values[i] != null) {
                     values[i] = null;  // lazy deletion
                     nullCount++;
+                    n--;
                 }
                 break;
             }
         }
 
-        if (n > 0 && n <= m / 8) resize(m / 2);  // shrink table if necessary
+        if (n > 0 && n <= m / 8) resize((int)(m / 1.5));  // shrink table if necessary
     }
 
     /**
@@ -138,9 +139,9 @@ public class LinearProbingHashST<Key, Value> {
     @SuppressWarnings("unchecked")
     private void resize(int newSize) {
         LinearProbingHashST<Key, Value> temp = new LinearProbingHashST<>();
-        temp.m = newSize;
-        temp.keys = (Key[]) new Object[newSize];
-        temp.values = (Value[]) new Object[newSize];
+        temp.m = Math.max(newSize, MIN_CAPACITY);
+        temp.keys = (Key[]) new Object[temp.m];
+        temp.values = (Value[]) new Object[temp.m];
 
         for (int i = 0; i < m; i++) {
             if (keys[i] != null && values[i] != null) {
