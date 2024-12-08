@@ -43,7 +43,7 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
         Node newParent = null;
         if(!current.isLeaf()) {
             Node NewLeaf = null;
-             if (current.leftElement.compareTo(element) == BigRoot) {
+             if (current.leftElement.compareTo(element) > 0) {
                 NewLeaf = InsertNotFull(current.left, element);
                 if (NewLeaf != null) {
                     if (current.is2Node()) {
@@ -58,7 +58,7 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
                     }
                 }
             }
-            else if (current.is2Node() || (current.is3Node() && current.rightElement.compareTo(element) == BigRoot)) {
+            else if (current.is2Node() || (current.is3Node() && current.rightElement.compareTo(element) > 0)) {
                 NewLeaf = InsertNotFull(current.mid, element);
 
                 if (NewLeaf != null) {
@@ -74,7 +74,7 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
                     }
                 }
             }
-            else if (current.is3Node() && current.rightElement.compareTo(element) == SmallRoot) {
+            else if (current.is3Node() && current.rightElement.compareTo(element) < 0) {
                 NewLeaf = InsertNotFull(current.right, element);
                 if (NewLeaf != null) { // Split, the right element goes up
                     Node leftCopy   = new Node(current.leftElement, null, current.left, current.mid);
@@ -86,10 +86,10 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
             if (current.leftElement.compareTo(element) == 0 || (current.is3Node() && current.rightElement.compareTo(element) == 0)) {
                 addition = false;  }
             else if (current.is2Node()) {
-                if (current.leftElement.compareTo(element) == BigRoot) {
+                if (current.leftElement.compareTo(element) > 0) {
                     current.rightElement    = current.leftElement;
                     current.leftElement     = element;          }
-                else if (current.leftElement.compareTo(element) == SmallRoot)
+                else if (current.leftElement.compareTo(element) < 0)
                     current.rightElement = element;         }
             else newParent = split(current, element);
         }
@@ -101,15 +101,15 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
         Node newParent = null;
 
         // The left element is bigger, so it will go up letting the new element on the left
-        if (current.leftElement.compareTo(element) == BigRoot) {
+        if (current.leftElement.compareTo(element) > 0) {
 
             Node left   = new Node(element, null);
             Node right  = new Node(current.rightElement, null);
             newParent   = new Node(current.leftElement, null, left, right);
 
-        } else if (current.leftElement.compareTo(element) == SmallRoot) {
+        } else if (current.leftElement.compareTo(element) < 0) {
 
-            if (current.rightElement.compareTo(element) == BigRoot) {
+            if (current.rightElement.compareTo(element) > 0) {
 
                 Node left   = new Node(current.leftElement, null);
                 Node right  = new Node(current.rightElement, null);
@@ -143,13 +143,13 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
                     found = (T) current.rightElement;
                 else {
                     // Recursive cases
-                    if(current.leftElement.compareTo(element) == BigRoot) {
+                    if(current.leftElement.compareTo(element) > 0) {
                         found = find(current.left, element);
                     }
-                    else if(current.right == null || current.rightElement.compareTo(element) == BigRoot) {
+                    else if(current.right == null || current.rightElement.compareTo(element) > 0) {
                         found = find(current.mid, element);
                     }
-                    else if (current.rightElement.compareTo(element) == SmallRoot) {
+                    else if (current.rightElement.compareTo(element) < 0) {
                         found = find(current.right, element);
                     }
                     else
@@ -229,7 +229,7 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
         }
     }
 
-    public boolean remove(T element) {
+    public void remove(T element) {
         boolean deleted;
 
         // We decrease the number of levels at the start, if the element is not deleted, we increase the value at the end
@@ -239,7 +239,6 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
 
         if(root.getLeftElement() == null) root = null;
         if(!deleted) this.size++;
-        return deleted;
     }
 
     private boolean remove(Node current, T element) {
@@ -248,8 +247,8 @@ class TwoThreeTree<T extends Comparable<T>> extends Node {
             deleted = false;
         else {
             if(!current.getLeftElement().equals(element)) {
-                if(current.getRightElement() == null || current.getRightElement().compareTo(element) == BigRoot) {
-                    if(current.getLeftElement().compareTo(element) == BigRoot) {
+                if(current.getRightElement() == null || current.getRightElement().compareTo(element) > 0) {
+                    if(current.getLeftElement().compareTo(element) > 0) {
                         deleted = remove(current.left, element);   }
                     else {
                         deleted = remove(current.mid, element);  }                                 }
