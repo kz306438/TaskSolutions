@@ -36,7 +36,7 @@ public class CuckooHashTable<K, V> {
         if (size >= LOAD_FACTOR * table1Keys.length) {
             resize();
         }
-        for (int i = 0; i < table1Keys.length; i++) {
+        for (int i = 0; i < 4; i++) {
             int index1 = hash1(key);
             if (table1Keys[index1] == null) {
                 table1Keys[index1] = key;
@@ -174,5 +174,33 @@ public class CuckooHashTable<K, V> {
      */
     private int hash2(K key) {
         return ((key.hashCode() * 31) & 0x7fffffff) % table2Keys.length;
+    }
+
+    public static void main(String[] args) {
+        CuckooHashTable<Integer, String> hashTable = new CuckooHashTable<>();
+
+        int key1 = 1;
+        int key2 = 1 + hashTable.hash2(key1) * hashTable.getLength1();
+        int key3 = 1 + hashTable.hash1(key2) * hashTable.getLength2();
+        int key4 = 1 + hashTable.hash2(key3) * hashTable.getLength1();
+        int key5 = 1 + hashTable.hash1(key4) * hashTable.getLength2();
+        int key6 = 1 + hashTable.hash2(key5) * hashTable.getLength1();
+
+        hashTable.put(key1, "value1");
+        hashTable.put(key2, "value2");
+        hashTable.put(key3, "value3");
+        hashTable.put(key4, "value4");
+        hashTable.put(key5, "value5");
+        hashTable.put(key6, "value6");
+
+        System.out.println("All keys inserted successfully!");
+    }
+
+    private int getLength2() {
+        return table1Keys.length;
+    }
+
+    private int getLength1() {
+        return table2Keys.length;
     }
 }
