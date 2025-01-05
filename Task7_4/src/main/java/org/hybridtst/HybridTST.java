@@ -1,4 +1,4 @@
-package org.onesidedbranches;
+package org.hybridtst;
 
 /**
  * @brief A hybrid Ternary Search Tree (TST) with R² branching at the root and second level.
