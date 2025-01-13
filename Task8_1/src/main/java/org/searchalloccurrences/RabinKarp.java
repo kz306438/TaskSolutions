@@ -49,6 +49,7 @@ public class RabinKarp {
             if (i < n - m) {
                 textHash = recomputeHash(text, textHash, i);
             }
+
         }
 
         return occurrences;
