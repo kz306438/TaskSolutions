@@ -24,7 +24,6 @@ public class NFAClient {
         System.out.println(nfa3.recognizes("ABC")); // false
         System.out.println(nfa3.recognizes("BBC")); // false
         System.out.println(nfa3.recognizes("ABBC")); // false
-
         System.out.println();
 
         NFA nfa4 = new NFA(".*"); // Expected result: true for any string
