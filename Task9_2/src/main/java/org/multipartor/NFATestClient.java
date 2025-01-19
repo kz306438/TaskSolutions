@@ -1,7 +1,4 @@
-package org.example;
-
-import java.util.Arrays;
-import java.util.List;
+package org.multipartor;
 
 /**
  * @brief Client to test the NFA class for various regular expression scenarios.
