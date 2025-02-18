@@ -21,7 +21,7 @@ public class MSDSort {
 
     private static void sort(String[] strings, String[] aux, int low, int high, int d, AlphabetInterface alphabet) {
         if (high <= low + CUTOFF) { // Use insertion sort for small subarrays
-            insertionSort(strings, low, high, d);
+            insertionSort(strings, low, high, d, alphabet);
             return;
         }
 
@@ -59,16 +59,22 @@ public class MSDSort {
         return -1; // Treat empty character as the smallest value
     }
 
-    private static void insertionSort(String[] strings, int low, int high, int d) {
+    private static void insertionSort(String[] strings, int low, int high, int d, AlphabetInterface alphabet) {
         for (int i = low; i <= high; i++) {
-            for (int j = i; j > low && less(strings[j], strings[j - 1], d); j--) {
+            for (int j = i; j > low && less(strings[j], strings[j - 1], d, alphabet); j--) {
                 swap(strings, j, j - 1);
             }
         }
     }
 
-    private static boolean less(String v, String w, int d) {
-        return v.substring(d).compareTo(w.substring(d)) < 0;
+    private static boolean less(String v, String w, int d, AlphabetInterface alphabet) {
+        int len1 = v.length(), len2 = w.length();
+        for (int i = d; i < Math.min(len1, len2); i++) {
+            int idx1 = alphabet.toIndex(v.charAt(i));
+            int idx2 = alphabet.toIndex(w.charAt(i));
+            if (idx1 != idx2) return idx1 < idx2;
+        }
+        return len1 < len2;
     }
 
     private static void swap(String[] a, int i, int j) {
