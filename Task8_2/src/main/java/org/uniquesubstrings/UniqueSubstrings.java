@@ -18,7 +18,7 @@ public class UniqueSubstrings {
         }
 
         Set<String> uniqueSubstrings = new HashSet<>();
-        Set<Long> seenHashes = new HashSet<>();
+        Map<Long, List<String>> hashToStrings = new HashMap<>();
 
         int base = 256; // Number of possible characters (ASCII)
         long prime = 101; // A prime number for hashing
@@ -34,8 +34,10 @@ public class UniqueSubstrings {
         }
 
         // Add the first substring's hash and value
-        seenHashes.add(hash);
-        uniqueSubstrings.add(s.substring(0, L));
+        String firstSubstring = s.substring(0, L);
+        hashToStrings.putIfAbsent(hash, new ArrayList<>());
+        hashToStrings.get(hash).add(firstSubstring);
+        uniqueSubstrings.add(firstSubstring);
 
         // Iterate through the string and compute rolling hashes
         for (int i = L; i < s.length(); i++) {
@@ -43,12 +45,21 @@ public class UniqueSubstrings {
             hash = (hash - s.charAt(i - L) * highestBasePower % prime + prime) % prime;
             hash = (hash * base + s.charAt(i)) % prime;
 
-            // Add the substring if its hash is unique
             String substring = s.substring(i - L + 1, i + 1);
-            if (!seenHashes.contains(hash)) {
-                seenHashes.add(hash);
-                uniqueSubstrings.add(substring);
+
+            // Check if the hash is already seen
+            if (hashToStrings.containsKey(hash)) {
+                // Check if the exact substring is already added to the set
+                List<String> stringsWithSameHash = hashToStrings.get(hash);
+                if (stringsWithSameHash.contains(substring)) {
+                    continue;
+                }
             }
+
+            // Add the substring and its hash
+            hashToStrings.putIfAbsent(hash, new ArrayList<>());
+            hashToStrings.get(hash).add(substring);
+            uniqueSubstrings.add(substring);
         }
 
         return uniqueSubstrings;
