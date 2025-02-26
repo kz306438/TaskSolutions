@@ -60,12 +60,12 @@ public class CachableBST<T extends Comparable<T>> extends RedBlackTree<T> {
      * @return true - if the element is found; false - if the element is not found.
      */
     public boolean find(T o) {
-        Node node = findNode(o);
+        Node node = _findNode(o);
         lastAccessedNode = node; // Update last accessed node.
         return node != nil;
     }
 
-    private Node findNode(T o) {
+    private Node _findNode(T o) {
         if (lastAccessedNode != null && lastAccessedNode.getValue() != null &&
                 lastAccessedNode.getValue().compareTo(o) == 0) {
             // Key matches the last accessed node; return it directly.
